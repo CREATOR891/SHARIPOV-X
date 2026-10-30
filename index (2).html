@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHARIPOV STORE | PREMIUM</title>
+    <style>
+        :root {
+            --bg-color: #030303;
+            --card-bg: rgba(18, 18, 22, 0.75);
+            --gold: #FFD700;
+            --gold-light: #FFF070;
+            --gold-dark: #B8860B;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --text-color: #F0F0F0;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Футуристичный фон с неоновым свечением */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(255, 215, 0, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(184, 134, 11, 0.06) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.03) 0%, transparent 60%);
+            z-index: -1;
+            animation: pulseGlow 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.08) rotate(2deg); opacity: 0.9; }
+        }
+
+        /* Кнопка меню */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: rgba(15, 15, 18, 0.85);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--gold-glow);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .menu-toggle:hover {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            transform: scale(1.08) rotate(90deg);
+        }
+
+        /* Боковое меню Glassmorphism */
+        aside {
+            position: fixed;
+            top: 0; left: calc(-1 * var(--sidebar-width));
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: rgba(10, 10, 14, 0.92);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 215, 0, 0.25);
+            z-index: 1000;
+            transition: left 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 25px 15px;
+            box-shadow: 10px 0 40px rgba(0, 0, 0, 0.9);
+        }
+
+        aside.active {
+            left: 0;
+        }
+
+        .sidebar-brand {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px var(--gold-glow);
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #FFF, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .menu-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            max-height: calc(100vh - 90px);
+            padding-right: 5px;
+        }
+
+        .menu-links::-webkit-scrollbar {
+            width: 4px;
+        }
+        .menu-links::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 4px;
+        }
+
+        .menu-links li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 16px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .menu-links li a:hover, .menu-links li a.active {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.15), transparent);
+            color: var(--gold);
+            border-left-color: var(--gold);
+            transform: translateX(6px);
+            box-shadow: inset 0 0 10px rgba(255, 215, 0, 0.1);
+        }
+
+        .menu-links li a span {
+            font-size: 18px;
+        }
+
+        /* Контент */
+        main {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1050px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: margin 0.4s ease;
+        }
+
+        .page-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.4s forwards;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--gold);
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 25px var(--gold-glow);
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: #ccc;
+            text-align: center;
+        }
+
+        /* Промо баннеры */
+        .promo-banner {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(184, 134, 11, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .promo-banner h3 {
+            color: var(--gold);
+            font-size: 20px;
+            margin-bottom: 6px;
+            text-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        .goal-banner {
+            background: linear-gradient(135deg, rgba(0, 230, 118, 0.1), rgba(0, 0, 0, 0.4));
+            border: 1px solid rgba(0, 230, 118, 0.4);
+            padding: 16px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 230, 118, 0.15);
+        }
+
+        .goal-banner h3 {
+            color: #00E676;
+            font-size: 20px;
+            margin-bottom: 6px;
+            text-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
+        }
+
+        /* Карточки */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+            margin-top: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 18px;
+            padding: 24px;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.25);
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card h3 {
+            color: var(--gold);
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .price-tag {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            margin: 12px 0;
+            text-shadow: 0 0 12px var(--gold-glow);
+        }
+
+        .price-tag span {
+            color: var(--gold);
+        }
+
+        .calc-info {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #000;
+            font-weight: 800;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.7);
+            transform: scale(1.02);
+        }
+
+        /* Валюта */
+        .currency-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+        }
+
+        .currency-box select {
+            background: #000;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .phone-nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .phone-nav .btn-back {
+            width: auto;
+            padding: 10px 16px;
+            margin-top: 0;
+        }
+
+        .phone-path {
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .phone-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 10px;
+        }
+
+        .phone-grid.models {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .phone-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 18px 14px;
+            cursor: pointer;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            min-height: 92px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .phone-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold);
+            box-shadow: 0 12px 28px rgba(255, 215, 0, 0.22);
+        }
+
+        .phone-card h3 {
+            color: var(--gold);
+            font-size: 17px;
+            margin: 0;
+        }
+
+        .phone-card span {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .btn-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .btn-row .btn {
+            margin-top: 0;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, #00E676, #00994c);
+            box-shadow: 0 4px 15px rgba(0, 230, 118, 0.35);
+        }
+
+        .btn-buy:hover {
+            background: linear-gradient(135deg, #69ffb0, #00E676);
+            box-shadow: 0 8px 25px rgba(0, 230, 118, 0.55);
+        }
+
+        .settings-list {
+            text-align: left;
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .settings-list div {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 12px;
+            background: rgba(255, 215, 0, 0.06);
+            border: 1px solid rgba(255, 215, 0, 0.18);
+            border-radius: 10px;
+            color: #ddd;
+            font-size: 15px;
+        }
+
+        .settings-list strong {
+            color: var(--gold);
+            font-size: 18px;
+        }
+
+        @media (max-width: 600px) {
+            .btn-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 900px) {
+            aside {
+                left: 0;
+            }
+            main {
+                margin-left: var(--sidebar-width);
+            }
+            .menu-toggle, .overlay {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+    <aside id="sidebar">
+        <div class="sidebar-brand">SHARIPOV STORE</div>
+        <ul class="menu-links">
+            <li><a href="#" onclick="showSection('home', this)" class="active" data-page="home"><span>🏠</span>Главная</a></li>
+            <li><a href="#" onclick="showSection('about', this)" data-page="about"><span>👑</span>О мне</a></li>
+            <li><a href="#" onclick="showSection('free-settings', this)" data-page="free-settings"><span>🆓</span>Бесплатные настройки</a></li>
+            <li><a href="#" onclick="showSection('mobile-soft', this)" data-page="mobile-soft"><span>📱</span>Софт для телефона</a></li>
+            <li><a href="#" onclick="showSection('mobile-opt', this)" data-page="mobile-opt"><span>⚡</span>Оптимизация телефона</a></li>
+            <li><a href="#" onclick="showSection('pc-soft', this)" data-page="pc-soft"><span>💻</span>Софт для ПК</a></li>
+            <li><a href="#" onclick="showSection('pc-opt', this)" data-page="pc-opt"><span>⚙️</span>Оптимизация ПК</a></li>
+            <li><a href="#" onclick="showSection('file-replace', this)" data-page="file-replace"><span>📁</span>Замена файла (Premium)</a></li>
+            <li><a href="#" onclick="showSection('emulator', this)" data-page="emulator"><span>🎮</span>Эмулятор (Premium)</a></li>
+            <li><a href="#" onclick="showSection('currency', this)" data-page="currency"><span>💱</span>Валюта и цены</a></li>
+            <li><a href="#" onclick="showSection('social', this)" data-page="social"><span>▶</span>YouTube и сети</a></li>
+            <li><a href="#" onclick="showSection('contact', this)" data-page="contact"><span>✉</span>Покупка / Контакты</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <!-- Главная -->
+        <section id="home" class="page-section active">
+            <h1>SHARIPOV STORE</h1>
+            
+            <div class="promo-banner">
+                <h3>🔥 Внимание! Акция и важная информация!</h3>
+                <p style="margin: 0; color: #fff;">Сейчас проходит акция, все цены снижены! Они могут увеличиться в любое время, поэтому берите поскорей. Также учтите, что пока софтов и товаров не так много, потому что над проектом работает всего один человек!</p>
+            </div>
+
+            <div class="goal-banner">
+                <h3>🎁 Цель: 1000 подписчиков!</h3>
+                <p style="margin: 0; color: #E0E0E0;">Когда на канале будет 1000 подписчиков, будут выпущены БЕСПЛАТНЫЕ софты и оптимизации для всех!</p>
+            </div>
+
+            <p>Элитный игровой софт, оптимизация и лучшие услуги для Free Fire и других игр. Не думайте насчет платежа — оплату можно произвести даже алмазами!</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Софт для телефона</h3>
+                    <p>Root и Non-Root версии с мощным функционалом.</p>
+                    <button class="btn" onclick="showSection('mobile-soft', document.querySelector('.menu-links a[data-page=\'mobile-soft\']'))">Перейти</button>
+                </div>
+                <div class="card">
+                    <h3>Оптимизация ПК</h3>
+                    <p>Удаление мусора, увеличение FPS и VIP настройки.</p>
+                    <button class="btn" onclick="showSection('pc-opt', document.querySelector('.menu-links a[data-page=\'pc-opt\']'))">Перейти</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- О мне -->
+        <section id="about" class="page-section">
+            <h1>О мне</h1>
+            <p>Привет! Меня зовут <strong>Sharipov</strong>. Я профессиональный разработчик, программирую, создаю уникальные утилиты, скрипты, игровые модификации и кастомные решения в одиночку. Моя цель — создавать самый качественный, безопасный и производительный софт для игроков. Каждый проект отчищен, оптимизирован и сделан на совесть!</p>
+        </section>
+
+        <!-- Бесплатные настройки -->
+        <section id="free-settings" class="page-section">
+            <h1>Бесплатные настройки</h1>
+            <p>Выбери бренд телефона, потом линейку и модель — настройки бесплатно.</p>
+            <div class="phone-nav" id="phoneNav"></div>
+            <div id="phoneCatalog"></div>
+        </section>
+
+        <!-- Софт для телефона -->
+        <section id="mobile-soft" class="page-section">
+            <h1>Софт для телефона</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Софт (Без Root)</h3>
+                    <p>Работает на Aimbot Pro и ESP. Отличный выбор для безопасной и комфортной игры.</p>
+                    <div class="price-tag"><span class="converted-price" data-tjs="15">15 TJS</span></div>
+                    <div class="calc-info">за 20 часов / расчет за 3 дня: ~45 TJS</div>
+                    <button class="btn" onclick="buyRedirect()">Купить</button>
+                </div>
+                <div class="card">
+                    <h3>Софт (С Root правами)</h3>
+                    <p>Максимальный функционал: работает Aim Drag, AimBody и Chams Menu.</p>
+                    <div class="price-tag"><span class="converted-price" data-tjs="100">100 TJS</span></div>
+                    <div class="calc-info">за 15 часов / расчет за 3 дня: ~300 TJS</div>
+                    <button class="btn" onclick="buyRedirect()">Купить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Оптимизация телефона -->
+        <section id="mobile-opt" class="page-section">
+            <h1>Оптимизация телефона</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Полная оптимизация ОС</h3>
+                    <p>Удаляет весь мусор, увеличение FPS, VIP настройки на ваш вкус.</p>
+                    <div class="price-tag"><span class="converted-price" data-tjs="25">25 TJS</span></div>
+                    <button class="btn" onclick="buyRedirect()">Купить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Софт для ПК -->
+        <section id="pc-soft" class="page-section">
+            <h1>Софт для ПК</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>PC Gaming Soft (2 вида Aimbota)</h3>
+                    <p>Доступно 2 вида Aimbota. Включает Chams и ESP для тотального контроля.</p>
+                    <div class="price-tag"><span class="converted-price" data-tjs="50">50 TJS</span></div>
+                    <button class="btn" onclick="buyRedirect()">Купить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Оптимизация ПК -->
+        <section id="pc-opt" class="page-section">
+            <h1>Оптимизация ПК</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Deep Windows Tweak</h3>
+                    <p>Удаляет весь мусор, увеличивает FPS, VIP настройки на ваш вкус для максимального комфорта.</p>
+                    <div class="price-tag"><span class="converted-price" data-tjs="60">60 TJS</span></div>
+                    <button class="btn" onclick="buyRedirect()">Купить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Замена файла -->
+        <section id="file-replace" class="page-section">
+            <h1>Услуга: Замена файла (Premium)</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Кастомная замена файлов Premium (Телефон / ПК)</h3>
+                    <p>Эксклюзивная замена на более 10 видов персонажей, замена файла оружия, стенки и профиля.</p>
+                    <div class="price-tag"><span class="converted-price" data-tjs="15">15 TJS</span></div>
+                    <button class="btn" onclick="buyRedirect()">Купить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Эмулятор -->
+        <section id="emulator" class="page-section">
+            <h1>Эмулятор & Free Fire (Premium)</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Другой эмулятор Premium (20 часов)</h3>
+                    <p>Премиум настройка и специальный мощный софт под другой эмулятор.</p>
+                    <div class="price-tag"><span class="converted-price" data-tjs="150">150 TJS</span></div>
+                    <button class="btn" onclick="buyRedirect()">Купить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Валюта -->
+        <section id="currency" class="page-section">
+            <h1>Выбор валюты</h1>
+            <div class="currency-box">
+                <label>Выберите валюту:</label>
+                <select id="currencySelect" onchange="changeCurrency()">
+                    <option value="TJS">🇹🇯 Сомони (TJS)</option>
+                    <option value="RUB">🇷🇺 Рубль (₽)</option>
+                    <option value="KZT">🇰🇿 Тенге (KZT)</option>
+                    <option value="KGS">🇰🇬 Сом (KGS)</option>
+                    <option value="UZS">🇺🇿 Сум (UZS)</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- YouTube -->
+        <section id="social" class="page-section">
+            <h1>YouTube и сети</h1>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Официальный YouTube</h3>
+                    <p>Следите за новостями и обзорами:</p>
+                    <a href="https://www.youtube.com/@FF_MAXX6" target="_blank" rel="noopener noreferrer" class="btn">YouTube @FF_MAXX6</a>
+                </div>
+                <div class="card">
+                    <h3>TikTok</h3>
+                    <p>Связь, покупка и бесплатные настройки:</p>
+                    <a href="https://www.tiktok.com/@sharipov.pc" target="_blank" rel="noopener noreferrer" class="btn">TikTok @sharipov.pc</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section id="contact" class="page-section">
+            <h1>Покупка</h1>
+            <div class="card" style="text-align: center; padding: 30px;">
+                <h3>Для покупки</h3>
+                <p style="font-size: 16px; margin: 15px 0;">Напишите в личные сообщения в TikTok: <strong>@sharipov.pc</strong> (Оплату можно произвести даже алмазами)</p>
+                <a href="https://www.tiktok.com/@sharipov.pc" target="_blank" rel="noopener noreferrer" class="btn" style="max-width: 250px; margin: 0 auto;">TikTok @sharipov.pc</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const rates = {
+            TJS: 1,
+            RUB: 8.5,
+            KZT: 44,
+            KGS: 8.2,
+            UZS: 1200
+        };
+
+        const symbols = {
+            TJS: ' TJS',
+            RUB: ' ₽',
+            KZT: ' ₸',
+            KGS: ' сом',
+            UZS: ' UZS'
+        };
+
+        function changeCurrency() {
+            const currency = document.getElementById('currencySelect').value;
+            const rate = rates[currency];
+            const symbol = symbols[currency];
+
+            document.querySelectorAll('.converted-price').forEach(el => {
+                const tjsPrice = parseFloat(el.getAttribute('data-tjs'));
+                const converted = Math.round(tjsPrice * rate);
+                el.innerText = `${converted} ${symbol}`;
+            });
+        }
+
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+
+            document.querySelectorAll('.menu-links a').forEach(link => link.classList.remove('active'));
+            if (element) element.classList.add('active');
+
+            if (sectionId === 'free-settings') {
+                phoneState = { brand: null, series: null, model: null, showFree: false };
+                renderPhoneCatalog();
+            }
+
+            if (window.innerWidth < 900) toggleMenu();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function buyRedirect() {
+            showSection('contact', document.querySelector('.menu-links a[data-page="contact"]'));
+        }
+
+        const phoneCatalog = [
+            {
+                id: 'samsung',
+                name: 'Samsung',
+                series: [
+                    { name: 'Galaxy A', models: ['Galaxy A04', 'Galaxy A05', 'Galaxy A06', 'Galaxy A10', 'Galaxy A12', 'Galaxy A13', 'Galaxy A14', 'Galaxy A15', 'Galaxy A16', 'Galaxy A20s', 'Galaxy A21s', 'Galaxy A23', 'Galaxy A24', 'Galaxy A25', 'Galaxy A30s', 'Galaxy A31', 'Galaxy A32', 'Galaxy A33', 'Galaxy A34', 'Galaxy A35', 'Galaxy A36', 'Galaxy A50', 'Galaxy A51', 'Galaxy A52', 'Galaxy A53', 'Galaxy A54', 'Galaxy A55', 'Galaxy A56', 'Galaxy A70', 'Galaxy A71', 'Galaxy A72', 'Galaxy A73'] },
+                    { name: 'Galaxy S', models: ['Galaxy S10', 'Galaxy S20', 'Galaxy S20 FE', 'Galaxy S21', 'Galaxy S21 FE', 'Galaxy S22', 'Galaxy S23', 'Galaxy S23 FE', 'Galaxy S24', 'Galaxy S24 FE', 'Galaxy S24 Ultra', 'Galaxy S25', 'Galaxy S25 Ultra'] },
+                    { name: 'Galaxy M', models: ['Galaxy M12', 'Galaxy M13', 'Galaxy M14', 'Galaxy M23', 'Galaxy M31', 'Galaxy M32', 'Galaxy M33', 'Galaxy M34', 'Galaxy M35', 'Galaxy M51', 'Galaxy M52', 'Galaxy M53', 'Galaxy M54', 'Galaxy M55'] },
+                    { name: 'Galaxy F', models: ['Galaxy F13', 'Galaxy F14', 'Galaxy F15', 'Galaxy F23', 'Galaxy F34', 'Galaxy F41', 'Galaxy F54', 'Galaxy F55'] },
+                    { name: 'Galaxy Z', models: ['Galaxy Z Flip 3', 'Galaxy Z Flip 4', 'Galaxy Z Flip 5', 'Galaxy Z Flip 6', 'Galaxy Z Fold 3', 'Galaxy Z Fold 4', 'Galaxy Z Fold 5', 'Galaxy Z Fold 6'] },
+                    { name: 'Galaxy Note', models: ['Galaxy Note 10', 'Galaxy Note 10+', 'Galaxy Note 20', 'Galaxy Note 20 Ultra'] }
+                ]
+            },
+            {
+                id: 'xiaomi',
+                name: 'Xiaomi',
+                series: [
+                    { name: 'Xiaomi', models: ['Xiaomi 11T', 'Xiaomi 11T Pro', 'Xiaomi 12', 'Xiaomi 12T', 'Xiaomi 12T Pro', 'Xiaomi 13', 'Xiaomi 13T', 'Xiaomi 13T Pro', 'Xiaomi 14', 'Xiaomi 14T', 'Xiaomi 14T Pro', 'Xiaomi 15'] },
+                    { name: 'Xiaomi Mix / Pad', models: ['Xiaomi Mix 4', 'Xiaomi Mix Fold 2', 'Xiaomi Mix Fold 3', 'Xiaomi Pad 5', 'Xiaomi Pad 6'] }
+                ]
+            },
+            {
+                id: 'redmi',
+                name: 'Redmi',
+                series: [
+                    { name: 'Redmi Note', models: ['Redmi Note 8', 'Redmi Note 8 Pro', 'Redmi Note 9', 'Redmi Note 9 Pro', 'Redmi Note 10', 'Redmi Note 10 Pro', 'Redmi Note 11', 'Redmi Note 11 Pro', 'Redmi Note 12', 'Redmi Note 12 Pro', 'Redmi Note 13', 'Redmi Note 13 Pro', 'Redmi Note 13 Pro+', 'Redmi Note 14', 'Redmi Note 14 Pro'] },
+                    { name: 'Redmi', models: ['Redmi 9', 'Redmi 9A', 'Redmi 9C', 'Redmi 10', 'Redmi 10C', 'Redmi 12', 'Redmi 12C', 'Redmi 13', 'Redmi 13C', 'Redmi 14', 'Redmi 14C'] },
+                    { name: 'Redmi A', models: ['Redmi A1', 'Redmi A2', 'Redmi A3', 'Redmi A3x'] },
+                    { name: 'Redmi K', models: ['Redmi K40', 'Redmi K50', 'Redmi K60', 'Redmi K70'] }
+                ]
+            },
+            {
+                id: 'poco',
+                name: 'POCO',
+                series: [
+                    { name: 'POCO X', models: ['POCO X3', 'POCO X3 Pro', 'POCO X3 NFC', 'POCO X4 Pro', 'POCO X5', 'POCO X5 Pro', 'POCO X6', 'POCO X6 Pro', 'POCO X7'] },
+                    { name: 'POCO F', models: ['POCO F3', 'POCO F4', 'POCO F4 GT', 'POCO F5', 'POCO F5 Pro', 'POCO F6', 'POCO F6 Pro'] },
+                    { name: 'POCO M', models: ['POCO M3', 'POCO M4', 'POCO M4 Pro', 'POCO M5', 'POCO M6', 'POCO M6 Pro'] },
+                    { name: 'POCO C', models: ['POCO C3', 'POCO C40', 'POCO C55', 'POCO C65', 'POCO C75'] }
+                ]
+            },
+            {
+                id: 'realme',
+                name: 'Realme',
+                series: [
+                    { name: 'Realme Number', models: ['Realme 7', 'Realme 8', 'Realme 9', 'Realme 10', 'Realme 11', 'Realme 12', 'Realme 13', 'Realme 14'] },
+                    { name: 'Realme C', models: ['Realme C11', 'Realme C15', 'Realme C21', 'Realme C25', 'Realme C33', 'Realme C35', 'Realme C51', 'Realme C53', 'Realme C55', 'Realme C63', 'Realme C67'] },
+                    { name: 'Realme GT', models: ['Realme GT', 'Realme GT Neo 2', 'Realme GT Neo 3', 'Realme GT 5', 'Realme GT 6'] },
+                    { name: 'Realme Narzo', models: ['Narzo 30', 'Narzo 50', 'Narzo 60', 'Narzo 70'] }
+                ]
+            },
+            {
+                id: 'oppo',
+                name: 'OPPO',
+                series: [
+                    { name: 'OPPO A', models: ['OPPO A15', 'OPPO A16', 'OPPO A17', 'OPPO A18', 'OPPO A38', 'OPPO A54', 'OPPO A57', 'OPPO A58', 'OPPO A59', 'OPPO A74', 'OPPO A78', 'OPPO A79', 'OPPO A98'] },
+                    { name: 'OPPO Reno', models: ['Reno 6', 'Reno 7', 'Reno 8', 'Reno 10', 'Reno 11', 'Reno 12'] },
+                    { name: 'OPPO Find', models: ['Find X3', 'Find X5', 'Find X6', 'Find N2', 'Find N3'] }
+                ]
+            },
+            {
+                id: 'vivo',
+                name: 'vivo',
+                series: [
+                    { name: 'vivo Y', models: ['vivo Y15', 'vivo Y17', 'vivo Y20', 'vivo Y21', 'vivo Y22', 'vivo Y27', 'vivo Y33s', 'vivo Y35', 'vivo Y36', 'vivo Y53s'] },
+                    { name: 'vivo V', models: ['vivo V21', 'vivo V23', 'vivo V25', 'vivo V27', 'vivo V29', 'vivo V30'] },
+                    { name: 'vivo X', models: ['vivo X60', 'vivo X70', 'vivo X80', 'vivo X90', 'vivo X100'] }
+                ]
+            },
+            {
+                id: 'honor',
+                name: 'Honor',
+                series: [
+                    { name: 'Honor X', models: ['Honor X6', 'Honor X7', 'Honor X8', 'Honor X8b', 'Honor X9', 'Honor X9a', 'Honor X9b'] },
+                    { name: 'Honor Number', models: ['Honor 90', 'Honor 90 Lite', 'Honor 200', 'Honor 200 Lite'] },
+                    { name: 'Honor Magic', models: ['Honor Magic 5', 'Honor Magic 6', 'Honor Magic V'] }
+                ]
+            },
+            {
+                id: 'huawei',
+                name: 'Huawei',
+                series: [
+                    { name: 'Huawei P', models: ['P30', 'P40', 'P50', 'P60'] },
+                    { name: 'Huawei Nova', models: ['Nova 8', 'Nova 9', 'Nova 10', 'Nova 11', 'Nova 12'] },
+                    { name: 'Huawei Y', models: ['Y6', 'Y7', 'Y8p', 'Y9'] }
+                ]
+            },
+            {
+                id: 'tecno',
+                name: 'Tecno',
+                series: [
+                    { name: 'Spark', models: ['Spark 7', 'Spark 8', 'Spark 9', 'Spark 10', 'Spark 20', 'Spark 20 Pro', 'Spark 30'] },
+                    { name: 'Camon', models: ['Camon 18', 'Camon 19', 'Camon 20', 'Camon 20 Pro', 'Camon 30'] },
+                    { name: 'Pova', models: ['Pova 3', 'Pova 4', 'Pova 5', 'Pova 6'] },
+                    { name: 'Phantom', models: ['Phantom X', 'Phantom X2', 'Phantom V Fold'] }
+                ]
+            },
+            {
+                id: 'infinix',
+                name: 'Infinix',
+                series: [
+                    { name: 'Hot', models: ['Hot 10', 'Hot 11', 'Hot 12', 'Hot 20', 'Hot 30', 'Hot 40', 'Hot 50'] },
+                    { name: 'Note', models: ['Note 10', 'Note 11', 'Note 12', 'Note 30', 'Note 40'] },
+                    { name: 'Zero', models: ['Zero 5G', 'Zero 20', 'Zero 30'] },
+                    { name: 'Smart', models: ['Smart 6', 'Smart 7', 'Smart 8'] }
+                ]
+            },
+            {
+                id: 'itel',
+                name: 'Itel',
+                series: [
+                    { name: 'Itel A', models: ['Itel A18', 'Itel A49', 'Itel A60', 'Itel A70'] },
+                    { name: 'Itel P', models: ['Itel P38', 'Itel P55', 'Itel P65'] },
+                    { name: 'Itel S', models: ['Itel S18', 'Itel S23'] }
+                ]
+            },
+            {
+                id: 'iphone',
+                name: 'iPhone',
+                series: [
+                    { name: 'iPhone', models: ['iPhone 8', 'iPhone XR', 'iPhone 11', 'iPhone 12', 'iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 16'] },
+                    { name: 'iPhone Plus / Pro', models: ['iPhone 11 Pro', 'iPhone 12 Pro', 'iPhone 13 Pro', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 15 Plus', 'iPhone 15 Pro', 'iPhone 15 Pro Max', 'iPhone 16 Plus', 'iPhone 16 Pro', 'iPhone 16 Pro Max'] },
+                    { name: 'iPhone SE', models: ['iPhone SE 2020', 'iPhone SE 2022', 'iPhone SE 3'] }
+                ]
+            },
+            {
+                id: 'oneplus',
+                name: 'OnePlus',
+                series: [
+                    { name: 'OnePlus', models: ['OnePlus 9', 'OnePlus 10', 'OnePlus 11', 'OnePlus 12'] },
+                    { name: 'Nord', models: ['Nord 2', 'Nord CE 2', 'Nord CE 3', 'Nord 3', 'Nord 4'] }
+                ]
+            },
+            {
+                id: 'motorola',
+                name: 'Motorola',
+                series: [
+                    { name: 'Moto G', models: ['Moto G22', 'Moto G32', 'Moto G54', 'Moto G84'] },
+                    { name: 'Moto E', models: ['Moto E13', 'Moto E22', 'Moto E40'] },
+                    { name: 'Edge', models: ['Edge 20', 'Edge 30', 'Edge 40', 'Edge 50'] }
+                ]
+            }
+        ];
+
+        let phoneState = { brand: null, series: null, model: null, showFree: false };
+
+        function hashText(text) {
+            let hash = 0;
+            for (let i = 0; i < text.length; i++) {
+                hash = (hash * 33 + text.charCodeAt(i)) >>> 0;
+            }
+            return hash;
+        }
+
+        function pickNum(hash, min, max, salt) {
+            return min + ((hash + salt * 9973) % (max - min + 1));
+        }
+
+        function getModelSettings(model, brandId) {
+            const key = `${brandId}|${model}`;
+            const hash = hashText(key);
+            const flagship = /S1[0-9]|S2[0-9]|Ultra|iPhone 1[3-6] Pro|Xiaomi 1[3-5]|POCO F[4-6]|Find|Magic|GT 6|X100/.test(model);
+            const weak = /A0[0-9]|A1[0-4]|Redmi 9|Redmi A|C3|C11|Hot 1|Itel|Y6|Spark 7|Galaxy A10|Galaxy A12/.test(model);
+
+            const generalMin = flagship ? 188 : weak ? 162 : 174;
+            const generalMax = flagship ? 200 : weak ? 184 : 196;
+
+            return {
+                general: pickNum(hash, generalMin, generalMax, 1),
+                red: pickNum(hash, weak ? 148 : 156, weak ? 168 : 179, 2),
+                x2: pickNum(hash, 139, 161, 3),
+                x4: pickNum(hash, 128, 149, 4),
+                sniper: pickNum(hash, 96, 118, 5),
+                awm: pickNum(hash, 82, 104, 6),
+                graphics: weak ? 'Smooth' : (flagship ? 'Smooth' : 'Smooth'),
+                fps: flagship ? 'Ultra' : (weak ? 'High' : 'High'),
+                resolution: 'Выкл',
+                shadows: 'Выкл',
+                effects: 'Выкл'
+            };
+        }
+
+        function showFreeSettings() {
+            phoneState.showFree = true;
+            renderPhoneCatalog();
+        }
+
+        function renderPhoneCatalog() {
+            const nav = document.getElementById('phoneNav');
+            const box = document.getElementById('phoneCatalog');
+            if (!nav || !box) return;
+
+            const brand = phoneCatalog.find(item => item.id === phoneState.brand);
+            const series = brand ? brand.series.find(item => item.name === phoneState.series) : null;
+
+            if (phoneState.model && brand && series) {
+                const s = getModelSettings(phoneState.model, brand.id);
+                const freeBox = phoneState.showFree ? `
+                    <div class="settings-list">
+                        <div>Общая <strong>${s.general}</strong></div>
+                        <div>Красная точка <strong>${s.red}</strong></div>
+                        <div>2x <strong>${s.x2}</strong></div>
+                        <div>4x <strong>${s.x4}</strong></div>
+                        <div>Снайперка <strong>${s.sniper}</strong></div>
+                        <div>AWM <strong>${s.awm}</strong></div>
+                        <div>Графика <strong>${s.graphics}</strong></div>
+                        <div>FPS <strong>${s.fps}</strong></div>
+                        <div>Высокое разрешение <strong>${s.resolution}</strong></div>
+                        <div>Тени / эффекты <strong>${s.shadows}</strong></div>
+                    </div>` : '<p>Нажми «Бесплатная настройка», чтобы открыть цифры для этой модели.</p>';
+
+                nav.innerHTML = `<button class="btn btn-back" onclick="phoneGoBack()">← Назад</button><div class="phone-path">${brand.name} / ${series.name} / ${phoneState.model}</div>`;
+                box.innerHTML = `
+                    <div class="card-grid">
+                        <div class="card">
+                            <h3>${phoneState.model}</h3>
+                            <p>Высокая чувствительность и графика под эту модель.</p>
+                            <div class="btn-row">
+                                <button class="btn" onclick="showFreeSettings()">Бесплатная настройка</button>
+                                <button class="btn btn-buy" onclick="buyRedirect()">Купить настройку</button>
+                            </div>
+                            ${freeBox}
+                        </div>
+                    </div>`;
+                return;
+            }
+
+            if (series && brand) {
+                nav.innerHTML = `<button class="btn btn-back" onclick="phoneGoBack()">← Назад</button><div class="phone-path">${brand.name} / ${series.name}</div>`;
+                box.innerHTML = `<div class="phone-grid models">${series.models.map(model => `
+                    <div class="phone-card" onclick="openPhoneModel('${escapeJs(model)}')">
+                        <h3>${model}</h3>
+                        <span>Бесплатные настройки</span>
+                    </div>`).join('')}</div>`;
+                return;
+            }
+
+            if (brand) {
+                nav.innerHTML = `<button class="btn btn-back" onclick="phoneGoBack()">← Назад</button><div class="phone-path">${brand.name}</div>`;
+                box.innerHTML = `<div class="phone-grid">${brand.series.map(item => `
+                    <div class="phone-card" onclick="openPhoneSeries('${escapeJs(item.name)}')">
+                        <h3>${item.name}</h3>
+                        <span>${item.models.length} моделей</span>
+                    </div>`).join('')}</div>`;
+                return;
+            }
+
+            nav.innerHTML = '';
+            box.innerHTML = `<div class="phone-grid">${phoneCatalog.map(item => `
+                <div class="phone-card" onclick="openPhoneBrand('${item.id}')">
+                    <h3>${item.name}</h3>
+                    <span>${item.series.length} линеек</span>
+                </div>`).join('')}</div>`;
+        }
+
+        function escapeJs(value) {
+            return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        }
+
+        function openPhoneBrand(id) {
+            phoneState = { brand: id, series: null, model: null };
+            renderPhoneCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openPhoneSeries(name) {
+            phoneState.series = name;
+            phoneState.model = null;
+            renderPhoneCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openPhoneModel(name) {
+            phoneState.model = name;
+            phoneState.showFree = false;
+            renderPhoneCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function phoneGoBack() {
+            phoneState.showFree = false;
+            if (phoneState.model) phoneState.model = null;
+            else if (phoneState.series) phoneState.series = null;
+            else phoneState.brand = null;
+            renderPhoneCatalog();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        renderPhoneCatalog();
+    </script>
+</body>
+</html>
